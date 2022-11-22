@@ -1,0 +1,2 @@
+# Driver-Stress-Detection-via-Multimodal-Fusion-Using-Attention-based-CNN-LSTM
+Stress has been identified as one of major contributing factors in car crashes due to its negative impact on driving performance. It is in urgent need that the stress levels of drivers can be detected in real time with high accuracy so that intervening or navigating measures can be taken in time to mitigate the situation.
