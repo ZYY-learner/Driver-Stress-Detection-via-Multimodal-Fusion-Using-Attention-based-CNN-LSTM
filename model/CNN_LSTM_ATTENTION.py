@@ -63,47 +63,45 @@ def main(save_confusion=False):
                                                                     stratify=y)
 
     kf = KFold(n_splits=10, shuffle=False, random_state=2020)
-    # 打印折叠后分别作为训练集和测试集在原数据集上的索引, random_state=2020
     acc = []
     for k, (train_index, test_index) in enumerate(kf.split(X_train_eye1)):
-        if k == 2:
-            model = define_model()
-            print("TRAIN:", train_index, "TEST:", test_index)
+        model = define_model()
+        print("TRAIN:", train_index, "TEST:", test_index)
 
-            # X_train_cont, X_test_cont = X_train_cont1[train_index], X_train_cont1[test_index]
-            # X_train_eye, X_test_eye = X_train_eye1[train_index], X_train_eye1[test_index]
-            # X_train_phy, X_test_phy = X_train_phy1[train_index], X_train_phy1[test_index]
-            # y_train, y_test = y_train1[train_index], y_train1[test_index]
+        # X_train_cont, X_test_cont = X_train_cont1[train_index], X_train_cont1[test_index]
+        # X_train_eye, X_test_eye = X_train_eye1[train_index], X_train_eye1[test_index]
+        # X_train_phy, X_test_phy = X_train_phy1[train_index], X_train_phy1[test_index]
+        # y_train, y_test = y_train1[train_index], y_train1[test_index]
 
-            x_train = [X_train_cont1, X_train_eye1, X_train_phy1]
-            x_test = [X_test_cont1, X_test_eye1, X_test_phy1]
-            y_train = to_categorical(y_train1, 4)
-            y_train = y_train[:, 1:4]
-            y_test = to_categorical(y_test1, 4)
-            y_test = y_test[:, 1:4]
-            # run model training and evaluation
-            es = EarlyStopping(monitor='val_acc', mode='max', patience=10, verbose=1, restore_best_weights=True)
-            history = model.fit(x_train, y_train, batch_size=16, epochs=100, verbose=1, validation_split=0.1,
-                                shuffle=True,
-                                callbacks=[es])
-            _, accuracy = model.evaluate(x_test, y_test, batch_size=16, verbose=0)
-            # plot history
-            pyplot.plot(history.history['acc'], label='train')
-            pyplot.plot(history.history['val_acc'], label='val')
-            pyplot.legend()
-            # pyplot.savefig('./acc_valacc.jpg')
-            pyplot.show()
-            pyplot.plot(history.history['loss'], label='train')
-            pyplot.plot(history.history['val_loss'], label='val')
-            pyplot.legend()
-            # pyplot.savefig('./acc_valacc.jpg')
-            pyplot.show()
-            # create test set and targets
-            y_prediction = model.predict(x_test)
-            # Save the superparameters and structure
-            # save_model(model)
+        x_train = [X_train_cont1, X_train_eye1, X_train_phy1]
+        x_test = [X_test_cont1, X_test_eye1, X_test_phy1]
+        y_train = to_categorical(y_train1, 4)
+        y_train = y_train[:, 1:4]
+        y_test = to_categorical(y_test1, 4)
+        y_test = y_test[:, 1:4]
+        # run model training and evaluation
+        es = EarlyStopping(monitor='val_acc', mode='max', patience=10, verbose=1, restore_best_weights=True)
+        history = model.fit(x_train, y_train, batch_size=16, epochs=100, verbose=1, validation_split=0.1,
+                            shuffle=True,
+                            callbacks=[es])
+        _, accuracy = model.evaluate(x_test, y_test, batch_size=16, verbose=0)
+        # plot history
+        pyplot.plot(history.history['acc'], label='train')
+        pyplot.plot(history.history['val_acc'], label='val')
+        pyplot.legend()
+        # pyplot.savefig('./acc_valacc.jpg')
+        pyplot.show()
+        pyplot.plot(history.history['loss'], label='train')
+        pyplot.plot(history.history['val_loss'], label='val')
+        pyplot.legend()
+        # pyplot.savefig('./acc_valacc.jpg')
+        pyplot.show()
+        # create test set and targets
+        y_prediction = model.predict(x_test)
+        # Save the superparameters and structure
+        # save_model(model)
 
-            evaluate_model(model, history, accuracy, y_test, y_prediction, save_confusion)
+        evaluate_model(model, history, accuracy, y_test, y_prediction, save_confusion)
 
     return None
 
