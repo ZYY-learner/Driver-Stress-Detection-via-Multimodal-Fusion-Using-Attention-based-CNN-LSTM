@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon May  4 22:32:09 2020
-
-@author: Administrator
-"""
 from keras import backend as K
 from keras.engine.topology import Layer
 from keras import initializers, regularizers, constraints
