@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
+"""
+Created on Mon May  4 22:32:09 2020
+
+@author: Administrator
+"""
+
 from keras import backend as K
 from keras.engine.topology import Layer
 from keras import initializers, regularizers, constraints
 # class defining the custom attention layer
-from keras.layers import Lambda
-
-
 class HierarchicalAttentionNetwork(Layer):
     def __init__(self, attention_dim):
         self.init = initializers.get('normal')
@@ -46,6 +49,7 @@ class HierarchicalAttentionNetwork(Layer):
 
     def compute_output_shape(self, input_shape):
         return input_shape[0], input_shape[-1] 
+    
 class Attention_layer(Layer):
     """
         Attention operation, with a context/query vector, for temporal data.
@@ -110,7 +114,7 @@ class Attention_layer(Layer):
             uit += self.b
  
         uit = K.tanh(uit)
-
+       
         a = K.exp(uit)
  
         # apply mask after the exp. will be re-normalized next
@@ -219,5 +223,3 @@ class Attention_layer_simple(Layer):
     def compute_output_shape(self, input_shape):
         print (input_shape)
         return (input_shape[0],input_shape[1],input_shape[2])
-
-
