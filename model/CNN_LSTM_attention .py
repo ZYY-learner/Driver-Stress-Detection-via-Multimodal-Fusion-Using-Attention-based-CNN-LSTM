@@ -69,8 +69,8 @@ def main(save_confusion=False):
             X_train_phy, X_test_phy = X_train_phy1[train_index], X_train_phy1[test_index]       
             y_train, y_test = y_train1[train_index], y_train1[test_index]
             
-            x_train = [X_train_eye, X_train_phy]
-            x_test = [ X_test_eye,X_test_phy]
+            x_train = [X_train_cont, X_train_eye, X_train_phy]
+            x_test = [X_test_cont, X_test_eye,X_test_phy]
             y_train = to_categorical(y_train,4)
             y_train = y_train[:,1:4]
             y_test = to_categorical(y_test,4)
@@ -165,13 +165,13 @@ def define_model():
     lstm_out32 = LSTM(64,return_sequences=True)(lstm_out31)
 
     # merge input models
-    merge = Concatenate(axis=1)([lstm_out22, lstm_out32])
+    merge = Concatenate(axis=1)([lstm_out12, lstm_out22, lstm_out32])
     
     atten = HierarchicalAttentionNetwork(64)(merge)
     #atten = Attention_layer()(merge)
 
     output = Dense(3, activation='softmax')(atten)
-    model = Model(inputs=[input2, input3], outputs=output)
+    model = Model(inputs=[input1, input2, input3], outputs=output)
     
     #print(model.summary())
    
